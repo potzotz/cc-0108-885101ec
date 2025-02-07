@@ -1,0 +1,83 @@
+{
+  "key": "asisOperationFlow",
+  "value": [
+    {
+      "id": "3eec67c8-7a3d-4312-8d62-b5515df648c4",
+      "projectId": "91a0def0-093d-4986-89b7-65cbadbec494",
+      "category": "アカウント管理機能",
+      "value": "{\n  \"mermaid\": \"sequenceDiagram\\n    actor User as 依頼者\\n    participant System as システム\\n    participant Admin as 行政書士事務所\\n    participant Email as メールサーバー\\n\\n    User->>System: アカウント作成開始\\n    System->>User: 登録フォーム表示\\n    User->>System: 個人情報入力\\n    System->>System: 入力内容検証\\n    alt 入力エラーあり\\n        System->>User: エラー内容表示\\n    else 入力エラーなし\\n        System->>Email: 認証コード送信\\n        Email->>User: 認証メール受信\\n        User->>System: 認証コード入力\\n        System->>System: 認証確認\\n        alt 認証成功\\n            System->>User: アカウント作成完了通知\\n            System->>Admin: 新規アカウント通知\\n        else 認証失敗\\n            System->>User: 認証コード再入力要求\\n        end\\n    end\"\n}",
+      "phase": 1,
+      "version": 1,
+      "status": "published",
+      "lastUpdatedBy": "bbb34c5b-fce3-4027-8f9c-7e1d994685f8",
+      "createdAt": "2025-02-07T06:47:18.574Z",
+      "updatedAt": "2025-02-07T06:47:18.574Z",
+      "internalId": "d2200da8-7950-4477-b090-5fd71e456f2d"
+    },
+    {
+      "id": "ca5a7b7c-5460-4960-af66-b64d83c01165",
+      "projectId": "91a0def0-093d-4986-89b7-65cbadbec494",
+      "category": "書類作成依頼機能",
+      "value": "{\n  \"mermaid\": \"sequenceDiagram\\n    actor 依頼者\\n    participant システム\\n    participant 行政書士\\n    依頼者->>システム: 案件種類選択\\n    システム->>依頼者: 必要書類一覧表示\\n    依頼者->>システム: 書類入力開始\\n    loop 書類入力\\n        依頼者->>システム: 書類情報入力\\n        システム->>依頼者: 入力内容確認画面表示\\n        依頼者->>システム: 確認完了\\n        システム->>依頼者: 次の書類へ進む\\n    end\\n    依頼者->>システム: 全書類提出\\n    システム->>行政書士: 書類提出通知\\n    行政書士->>システム: 書類内容確認\\n    alt 修正必要\\n        行政書士->>システム: 修正依頼\\n        システム->>依頼者: 修正通知\\n        依頼者->>システム: 書類修正\\n    else 内容OK\\n        行政書士->>システム: 承認\\n        システム->>依頼者: 完了通知\\n    end\"\n}",
+      "phase": 1,
+      "version": 1,
+      "status": "published",
+      "lastUpdatedBy": "bbb34c5b-fce3-4027-8f9c-7e1d994685f8",
+      "createdAt": "2025-02-07T06:47:18.587Z",
+      "updatedAt": "2025-02-07T06:47:18.587Z",
+      "internalId": "811d0b14-1d83-4207-bae5-ec23c637a624"
+    },
+    {
+      "id": "38010823-a0d2-42f5-a93a-9f4b8d9335da",
+      "projectId": "91a0def0-093d-4986-89b7-65cbadbec494",
+      "category": "案件管理機能",
+      "value": "{\n  \"mermaid\": \"sequenceDiagram\\n    participant 依頼者\\n    participant システム\\n    participant 事務所スタッフ\\n    依頼者->>システム: 依頼済案件一覧の表示要求\\n    システム->>依頼者: 案件一覧を表示\\n    依頼者->>システム: 案件の詳細確認\\n    システム->>依頼者: 書類内容とチャット画面を表示\\n    依頼者->>システム: 書類内容の編集/更新\\n    システム->>事務所スタッフ: 更新通知\\n    事務所スタッフ->>システム: 書類内容の確認\\n    事務所スタッフ->>システム: 必要に応じて修正\\n    事務所スタッフ->>システム: 項目のロック設定\\n    システム->>依頼者: ロック項目の編集不可を表示\\n    依頼者->>システム: チャットでの問い合わせ\\n    システム->>事務所スタッフ: チャット通知\\n    事務所スタッフ->>システム: チャットで回答\\n    システム->>依頼者: 回答内容を表示\"\n}",
+      "phase": 1,
+      "version": 1,
+      "status": "published",
+      "lastUpdatedBy": "bbb34c5b-fce3-4027-8f9c-7e1d994685f8",
+      "createdAt": "2025-02-07T06:47:18.597Z",
+      "updatedAt": "2025-02-07T06:47:18.597Z",
+      "internalId": "979682c1-c72d-4deb-8826-677b872b5317"
+    },
+    {
+      "id": "d937b707-3fd1-48b9-a4e0-d8c6271e8694",
+      "projectId": "91a0def0-093d-4986-89b7-65cbadbec494",
+      "category": "チャットコミュニケーション機能",
+      "value": "{\n  \"mermaid\": \"sequenceDiagram\\n    participant D as 依頼者\\n    participant S as システム\\n    participant A as 行政書士事務所\\n    D->>S: マイページへアクセス\\n    S->>D: 案件一覧を表示\\n    D->>S: 案件を選択\\n    S->>D: チャット画面を表示\\n    D->>S: メッセージを送信\\n    S->>A: メッセージを通知\\n    A->>S: メッセージを確認\\n    A->>S: 返信メッセージを送信\\n    S->>D: 返信メッセージを通知\\n    D->>S: メッセージを確認\\n    Note over D,A: 必要に応じて\\nメッセージのやり取りを継続\\n    A->>S: 案件完了時にチャットをロック\\n    S->>D: チャット機能をロック状態に変更\"\n}",
+      "phase": 1,
+      "version": 1,
+      "status": "published",
+      "lastUpdatedBy": "bbb34c5b-fce3-4027-8f9c-7e1d994685f8",
+      "createdAt": "2025-02-07T06:47:18.606Z",
+      "updatedAt": "2025-02-07T06:47:18.606Z",
+      "internalId": "d60336b7-3957-422f-a95e-2ac38a48e160"
+    },
+    {
+      "id": "ae985e9a-2274-4b30-a91b-6b257c6a58d3",
+      "projectId": "91a0def0-093d-4986-89b7-65cbadbec494",
+      "category": "書類項目設定機能",
+      "value": "{\n  \"mermaid\": \"sequenceDiagram\\n    participant Admin as 事務所スタッフ\\n    participant System as システム\\n    Admin->>System: 案件の書類項目設定画面を開く\\n    System-->>Admin: 設定画面を表示\\n    Admin->>System: 必要書類の種類を設定\\n    Admin->>System: 入力項目の追加\\n    Note over Admin,System: テキスト、選択肢、プルダウン、\\n数値、ファイルアップロード等\\n    Admin->>System: 項目の順序変更\\n    Admin->>System: 項目のグルーピング設定\\n    Admin->>System: レイアウト調整\\n    Admin->>System: 設定内容を保存\\n    System-->>Admin: 保存完了通知\\n    Admin->>System: プレビュー表示要求\\n    System-->>Admin: 設定した入力画面をプレビュー表示\"\n}",
+      "phase": 1,
+      "version": 1,
+      "status": "published",
+      "lastUpdatedBy": "bbb34c5b-fce3-4027-8f9c-7e1d994685f8",
+      "createdAt": "2025-02-07T06:47:18.615Z",
+      "updatedAt": "2025-02-07T06:47:18.615Z",
+      "internalId": "c12aa158-cec6-4874-be16-522e568f7237"
+    },
+    {
+      "id": "801756d3-ef6c-4137-a70e-6f597ed6b172",
+      "projectId": "91a0def0-093d-4986-89b7-65cbadbec494",
+      "category": "進捗管理機能",
+      "value": "{\n  \"mermaid\": \"sequenceDiagram\\n    participant 依頼者\\n    participant システム\\n    participant 行政書士事務所\\n    依頼者->>システム: アカウント作成とログイン\\n    システム->>依頼者: メール認証コード送信\\n    依頼者->>システム: 認証コード入力\\n    依頼者->>システム: 行政書類作成依頼選択\\n    システム->>依頼者: 必要書類リスト表示\\n    依頼者->>システム: 書類情報入力\\n    依頼者->>システム: ファイルアップロード\\n    システム->>行政書士事務所: 依頼内容通知\\n    行政書士事務所->>システム: 内容確認と編集\\n    行政書士事務所->>システム: 進捗状況更新\\n    システム->>依頼者: 進捗状況通知\\n    依頼者->>システム: チャットでの問い合わせ\\n    システム->>行政書士事務所: チャットメッセージ転送\\n    行政書士事務所->>システム: チャットでの回答\\n    システム->>依頼者: 回答内容表示\\n    行政書士事務所->>システム: 案件完了処理\\n    システム->>依頼者: 完了通知送信\"\n}",
+      "phase": 1,
+      "version": 1,
+      "status": "published",
+      "lastUpdatedBy": "bbb34c5b-fce3-4027-8f9c-7e1d994685f8",
+      "createdAt": "2025-02-07T06:47:18.623Z",
+      "updatedAt": "2025-02-07T06:47:18.623Z",
+      "internalId": "89ca0944-13a7-4301-9f37-9cf8cd5e5c4d"
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "key": "tobeOperationFlow",
+  "value": [
+    {
+      "id": "5ecb79c6-635a-4be4-b0ab-186248d3ce67",
+      "projectId": "91a0def0-093d-4986-89b7-65cbadbec494",
+      "category": "アカウント管理機能",
+      "value": "{\n  \"mermaid\": \"sequenceDiagram\\n    actor User as 依頼者\\n    participant System as システム\\n    participant Admin as 行政書士事務所\\n    participant Email as メールサーバー\\n    participant DB as データベース\\n\\n    User->>System: アカウント作成開始\\n    System->>User: 登録フォーム表示\\n    User->>System: 個人情報入力\\n    System->>System: 入力内容の形式検証\\n    alt 入力エラーあり\\n        System->>User: エラー箇所を赤字太文字で表示\\n    else 入力エラーなし\\n        System->>Email: 6桁認証コード送信\\n        Email->>User: 認証メール受信\\n        User->>System: 認証コード入力\\n        System->>System: 認証コード検証\\n        alt 認証成功\\n            System->>DB: アカウント情報保存\\n            System->>User: アカウント作成完了画面表示\\n            System->>Admin: 新規アカウント作成通知\\n            System->>Email: アカウント作成完了メール送信\\n            Email->>User: 完了メール受信\\n        else 認証失敗\\n            System->>User: エラー表示と再入力要求\\n            opt 認証コード再送信\\n                User->>System: 再送信要求\\n                System->>Email: 新規認証コード送信\\n                Email->>User: 新規認証メール受信\\n            end\\n        end\\n    end\"\n}",
+      "phase": 1,
+      "version": 1,
+      "status": "published",
+      "lastUpdatedBy": "bbb34c5b-fce3-4027-8f9c-7e1d994685f8",
+      "createdAt": "2025-02-07T06:48:20.737Z",
+      "updatedAt": "2025-02-07T06:48:20.737Z",
+      "internalId": "8dc8045c-f877-48e1-ba30-ed62a215fa83"
+    },
+    {
+      "id": "7051e576-8ac0-4501-91bb-2f1211929eac",
+      "projectId": "91a0def0-093d-4986-89b7-65cbadbec494",
+      "category": "書類作成依頼機能",
+      "value": "{\n  \"mermaid\": \"sequenceDiagram\\n    actor 依頼者\\n    participant システム\\n    participant 行政書士\\n    依頼者->>システム: 案件種類選択\\n    システム->>依頼者: 必要書類と入力ガイド表示\\n    依頼者->>システム: 書類入力開始\\n    loop 書類入力プロセス\\n        依頼者->>システム: 書類情報入力\\n        システム-->>依頼者: リアルタイムバリデーション\\n        依頼者->>システム: 一時保存\\n        システム->>依頼者: 保存完了通知\\n        依頼者->>システム: 入力内容確認\\n        システム->>依頼者: 次の書類案内\\n    end\\n    依頼者->>システム: 全書類提出\\n    システム->>行政書士: 書類提出通知とチャット開始\\n    行政書士->>システム: 書類内容確認\\n    alt 修正必要な場合\\n        行政書士->>システム: チャットで修正依頼\\n        システム->>依頼者: プッシュ通知送信\\n        依頼者->>システム: チャットで確認と書類修正\\n        システム->>行政書士: 修正完了通知\\n    else 内容確認OK\\n        行政書士->>システム: 承認とロック設定\\n        システム->>依頼者: 完了通知と次のステップ案内\\n    end\\n    行政書士->>システム: 進捗ステータス更新\\n    システム->>依頼者: 最新状況通知\"\n}",
+      "phase": 1,
+      "version": 1,
+      "status": "published",
+      "lastUpdatedBy": "bbb34c5b-fce3-4027-8f9c-7e1d994685f8",
+      "createdAt": "2025-02-07T06:48:20.748Z",
+      "updatedAt": "2025-02-07T06:48:20.748Z",
+      "internalId": "3915658c-2095-499d-862e-aebb0b15c659"
+    },
+    {
+      "id": "1955add5-7104-4984-82de-b0a495ff1528",
+      "projectId": "91a0def0-093d-4986-89b7-65cbadbec494",
+      "category": "案件管理機能",
+      "value": "{\n  \"mermaid\": \"sequenceDiagram\\n    participant 依頼者\\n    participant システム\\n    participant 事務所スタッフ\\n    依頼者->>システム: 依頼済案件一覧の表示要求\\n    システム->>依頼者: 案件一覧を表示\\n    Note over システム: ステータス/進捗状況も\\n併せて表示\\n    依頼者->>システム: 案件の詳細確認\\n    システム->>依頼者: 書類内容とチャット画面を表示\\n    Note over システム: 書類別の入力状況と\\n修正履歴も表示\\n    依頼者->>システム: 書類内容の編集/更新\\n    システム-->>依頼者: 入力内容の自動保存\\n    システム->>事務所スタッフ: リアルタイム更新通知\\n    事務所スタッフ->>システム: 書類内容の確認\\n    opt 修正が必要な場合\\n        事務所スタッフ->>システム: 修正指示の登録\\n        システム->>依頼者: 修正依頼の通知\\n        依頼者->>システム: 修正内容の確認と対応\\n    end\\n    opt 確認完了の場合\\n        事務所スタッフ->>システム: 項目のロック設定\\n        システム->>依頼者: ロック項目の表示と通知\\n    end\\n    par チャットでのやり取り\\n        依頼者->>システム: 質問/確認事項の送信\\n        システム->>事務所スタッフ: プッシュ通知\\n        事務所スタッフ->>システム: 回答の送信\\n        システム->>依頼者: リアルタイムでの回答表示\\n    end\"\n}",
+      "phase": 1,
+      "version": 1,
+      "status": "published",
+      "lastUpdatedBy": "bbb34c5b-fce3-4027-8f9c-7e1d994685f8",
+      "createdAt": "2025-02-07T06:48:20.757Z",
+      "updatedAt": "2025-02-07T06:48:20.757Z",
+      "internalId": "3a61c934-6280-4ee6-a6b6-c269b296becb"
+    },
+    {
+      "id": "750b256c-1fd1-41a3-a334-e71b81c19a8e",
+      "projectId": "91a0def0-093d-4986-89b7-65cbadbec494",
+      "category": "チャットコミュニケーション機能",
+      "value": "{\n  \"mermaid\": \"sequenceDiagram\\n    participant D as 依頼者\\n    participant S as システム\\n    participant A as 行政書士事務所\\n    D->>S: マイページへアクセス\\n    S->>D: 案件一覧を表示\\n    D->>S: 案件を選択\\n    S->>D: チャット画面を表示\\n    opt 未読メッセージ確認\\n        S->>D: 未読メッセージを強調表示\\n    end\\n    D->>S: メッセージを送信\\n    S->>A: メッセージを通知とメール送信\\n    A->>S: メッセージを確認\\n    S->>A: 既読ステータスを表示\\n    A->>S: 返信メッセージを送信\\n    S->>D: プッシュ通知と画面更新\\n    D->>S: メッセージを確認\\n    S->>A: 既読ステータスを表示\\n    Note over D,A: リアルタイム双方向\\nコミュニケーション\\n    opt ファイル添付\\n        D->>S: ファイルをアップロード\\n        S->>A: ファイル受信通知\\n    end\\n    A->>S: 案件完了時にチャットをロック\\n    S->>D: チャット履歴を閲覧専用に変更\"\n}",
+      "phase": 1,
+      "version": 1,
+      "status": "published",
+      "lastUpdatedBy": "bbb34c5b-fce3-4027-8f9c-7e1d994685f8",
+      "createdAt": "2025-02-07T06:48:20.766Z",
+      "updatedAt": "2025-02-07T06:48:20.766Z",
+      "internalId": "de7c6f3e-6c29-4b99-aabf-65f2f09966ae"
+    },
+    {
+      "id": "216fbd5c-ce8b-4a02-bdc5-96c21857c169",
+      "projectId": "91a0def0-093d-4986-89b7-65cbadbec494",
+      "category": "書類項目設定機能",
+      "value": "{\n  \"mermaid\": \"sequenceDiagram\\n    participant Admin as 事務所スタッフ\\n    participant System as システム\\n    participant Templates as テンプレート管理\\n    Admin->>System: 案件の書類項目設定画面を開く\\n    System-->>Admin: 設定画面を表示\\n    Admin->>Templates: テンプレート一覧を確認\\n    Templates-->>Admin: 既存テンプレートを表示\\n    Alt テンプレート利用\\n        Admin->>Templates: テンプレートを選択\\n        Templates->>System: テンプレート内容を読み込み\\n    else 新規作成\\n        Admin->>System: 必要書類の種類を設定\\n        Admin->>System: 入力項目の追加と設定\\n        Note over Admin,System: テキスト/選択肢/プルダウン/\\n数値/ファイル等の設定\\n    end\\n    Admin->>System: 項目の順序変更\\n    Admin->>System: 項目のグルーピング設定\\n    Admin->>System: 入力規則のバリデーション設定\\n    Admin->>System: 必須項目の設定\\n    Admin->>System: レイアウト調整\\n    Admin->>System: プレビュー表示要求\\n    System-->>Admin: プレビュー表示\\n    Admin->>System: 設定内容を保存\\n    System-->>Admin: 保存完了通知\\n    opt テンプレート保存\\n        Admin->>Templates: 新規テンプレートとして保存\\n        Templates-->>Admin: テンプレート保存完了通知\\n    end\"\n}",
+      "phase": 1,
+      "version": 1,
+      "status": "published",
+      "lastUpdatedBy": "bbb34c5b-fce3-4027-8f9c-7e1d994685f8",
+      "createdAt": "2025-02-07T06:48:20.774Z",
+      "updatedAt": "2025-02-07T06:48:20.774Z",
+      "internalId": "7801765f-2709-4586-9af0-a71463202b80"
+    },
+    {
+      "id": "240545bd-5677-4db9-bdfe-36c59cee74e2",
+      "projectId": "91a0def0-093d-4986-89b7-65cbadbec494",
+      "category": "進捗管理機能",
+      "value": "{\n  \"mermaid\": \"sequenceDiagram\\n    participant 依頼者\\n    participant システム\\n    participant 行政書士事務所\\n    依頼者->>システム: アカウント作成とログイン\\n    システム->>依頼者: メール認証コード送信\\n    依頼者->>システム: 認証コード入力\\n    依頼者->>システム: 行政書類作成依頼選択\\n    システム->>依頼者: 必要書類リスト表示\\n    依頼者->>システム: 書類情報入力\\n    依頼者->>システム: ファイルアップロード\\n    システム->>依頼者: 入力内容バリデーション\\n    システム->>行政書士事務所: リアルタイム依頼内容通知\\n    行政書士事務所->>システム: 内容確認とレビュー\\n    行政書士事務所->>システム: 詳細な進捗状況更新\\n    システム->>依頼者: プッシュ通知で進捗状況通知\\n    依頼者->>システム: チャットでの問い合わせ\\n    システム->>行政書士事務所: リアルタイムチャット通知\\n    行政書士事務所->>システム: チャットでの迅速な回答\\n    システム->>依頼者: リアルタイム回答表示\\n    行政書士事務所->>システム: 最終確認と案件完了処理\\n    システム->>システム: 自動データバックアップ\\n    システム->>依頼者: 完了通知とフィードバック依頼\"\n}",
+      "phase": 1,
+      "version": 1,
+      "status": "published",
+      "lastUpdatedBy": "bbb34c5b-fce3-4027-8f9c-7e1d994685f8",
+      "createdAt": "2025-02-07T06:48:20.783Z",
+      "updatedAt": "2025-02-07T06:48:20.783Z",
+      "internalId": "d97196b8-21c5-4e98-8af0-dc9c97561c95"
+    }
+  ]
+}
